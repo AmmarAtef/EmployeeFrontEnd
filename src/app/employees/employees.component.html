@@ -1,0 +1,68 @@
+<app-alert *ngIf="deleteConf" (close)="onClose()" (delete)="onDeletePopUp()" ></app-alert>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2" *ngIf='fullControl'>
+      <a [routerLink]="['/AddEmployee']" class="btn btn-primary"
+        >Add Employee</a>
+    </div>
+    <hr>
+  </div>
+  <div *ngFor="let emp of employees">
+    <div class="row">
+      <div class="col-md-3">
+        <label
+          >Name: <span>{{ emp.EmployeeName }}</span></label
+        >
+      </div>
+      <div class="col-md-3">
+        <label
+          >Department: <span>{{ emp.EmployeeDepartment }}</span></label
+        >
+      </div>
+      <div class="col-md-3">
+        <label
+          >Salary: <span>{{ emp.EmployeeSalary }}</span></label
+        >
+      </div>
+      <div class="col-md-3">
+        <label
+          >Gender: <span>{{ emp.EmployeeGender }}</span></label
+        >
+      </div>
+      <div class="col-md-3">
+        <label
+          >Birthdate: <span>{{ emp.EmployeeBirthdate | date }}</span></label
+        >
+      </div>
+      <div class="col-md-3">
+        <label
+          >ProfileURL: <span>{{ emp.ProfileURL }}</span></label
+        >
+      </div>
+      <div class="col-md-3">
+        <label
+          >Description: <span>{{ emp.Description }}</span></label
+        >
+      </div>
+      <div class="col-md-3">
+        <label
+          >BriefOfExperience: <span>{{ emp.BriefOfExperience }}</span></label
+        >
+      </div>
+      <div class="col-md-3" *ngIf='fullControl'>
+        <button
+          (click)="onDelete(emp.ID)"
+          value="Delete"
+          class="btn btn-danger"
+        >
+          Delete
+        </button>
+      </div>
+      <div class="col-md-3" *ngIf='fullControl'>
+        <a [routerLink]="['/employee', emp.ID]" class="btn btn-primary"
+          >Update</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="addEmployee" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="EmployeeName">EmployeeName</label>
+            <input
+              type="text"
+              id="EmployeeName"
+              formControlName="EmployeeName"
+              class="form-control"
+            />
+            <span
+              *ngIf="!addEmployee.get('EmployeeName').valid && addEmployee.get('EmployeeName').touched"
+              class="help-block">Please enter a valid employee name!</span>
+          </div>
+          <div class="form-group">
+            <label for="EmployeeBirthdate">Birthdate</label>
+            <input
+              type="text"
+              id="EmployeeBirthdate"
+              formControlName="EmployeeBirthdate"
+              type="date"
+              class="form-control"
+            />
+            <span
+              *ngIf="
+                !addEmployee.get('EmployeeBirthdate').valid && addEmployee.get('EmployeeBirthdate').touched"
+              class="help-block"
+              >Please enter a valid BirthDate!</span
+            >
+          </div>
+
+
+        <div class="radio" *ngFor="let gender of genders">
+          <label>
+            <input
+              type="radio"
+              formControlName="EmployeeGender"
+              [value]="gender"
+            />{{ gender }}
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="EmployeeSalary">Salary</label>
+          <input
+            type="text"
+            id="EmployeeSalary"
+            formControlName="EmployeeSalary"
+            class="form-control"
+            type="number"
+          />
+          <span
+            *ngIf="
+              !addEmployee.get('EmployeeSalary').valid
+            "
+            class="help-block"
+          >
+            <span *ngIf="!addEmployee.get('EmployeeSalary').valid && addEmployee.get('EmployeeSalary').touched"
+              >This field is required!</span
+            >
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="EmployeeDepartment">Department</label>
+          <select
+            id="EmployeeDepartment"
+            class="form-control"
+            formControlName="EmployeeDepartment"
+            name="EmployeeDepartment"
+          >
+            <option value="HR">HR</option>
+            <option value="IT">IT</option>
+            <option value="DEV">DEV</option>
+          </select>
+
+          <span
+            *ngIf="
+              !addEmployee.get('EmployeeDepartment').valid "
+            class="help-block"
+          >
+            <span *ngIf="!addEmployee.get('EmployeeDepartment').valid && addEmployee.get('EmployeeDepartment').touched"
+              >This field is required!</span
+            >
+          </span>
+        </div>
+
+
+        <div class="form-group">
+          <label for="BriefOfExperience">Brief Of Experience</label>
+          <textarea
+           maxlength="1000"
+            type="text"
+            id="BriefOfExperience"
+            formControlName="BriefOfExperience"
+            class="form-control"
+          ></textarea>
+          <span
+            *ngIf="
+              !addEmployee.get('BriefOfExperience').valid
+            "
+            class="help-block"
+          >
+            <span *ngIf="!addEmployee.get('BriefOfExperience').valid && addEmployee.get('BriefOfExperience').touched"
+              >This field is required!</span
+            >
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="ProfileURL">Profile URL</label>
+          <input
+            type="text"
+            id="ProfileURL"
+            formControlName="ProfileURL"
+            class="form-control"
+          />
+          <span
+            *ngIf="
+              !addEmployee.get('ProfileURL').valid
+            "
+            class="help-block"
+          >
+            <span *ngIf="!addEmployee.get('ProfileURL').valid && addEmployee.get('ProfileURL').touched"
+              >This field is required!</span
+            >
+          </span>
+        </div>
+
+
+        <div class="form-group">
+          <label for="Description">Description</label>
+          <textarea
+            type="text"
+            id="Description"
+            formControlName="Description"
+            class="form-control"
+          ></textarea>
+          <span
+            *ngIf="
+              !addEmployee.get('Description').valid &&
+              addEmployee.get('Description').touched
+            "
+            class="help-block"
+          >
+            <span *ngIf="!addEmployee.get('Description').valid && addEmployee.get('Description').touched"
+              >This field is required!</span
+            >
+          </span>
+        </div>
+        <span
+        *ngIf="!addEmployee.valid && addEmployee.touched"
+        class="help-block">Please enter valid data!</span>
+        <button class="btn btn-primary" [disabled] = "!addEmployee.valid" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+</div>

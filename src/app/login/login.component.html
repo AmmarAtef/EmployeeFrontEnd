@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <div class="alert alert-danger" *ngIf="error">
+        <p>{{ error }}</p>
+      </div>
+      <form [formGroup]="logIn" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="userName">userName</label>
+            <input
+              type="text"
+              id="userName"
+              formControlName="userName"
+              class="form-control"
+            />
+            <span
+              *ngIf="!logIn.get('userName').valid && logIn.get('userName').touched"
+              class="help-block">Please enter a valid employee name!</span>
+          </div>
+          <div class="form-group">
+            <label for="password">password</label>
+            <input
+              type="text"
+              id="password"
+              formControlName="password"
+              type="password"
+              class="form-control"
+            />
+            <span
+              *ngIf="
+                !logIn.get('password').valid && logIn.get('password').touched"
+              class="help-block"
+              >Please enter a valid password!</span
+            >
+          </div>
+
+        <button class="btn btn-primary" [disabled] = "!logIn.valid" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
