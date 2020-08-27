@@ -9,10 +9,14 @@ import { Observable } from "rxjs";
 import { EmployeeService } from "../service/employee.service";
 import { Router } from "@angular/router";
 import { map, take, exhaustMap } from "rxjs/operators";
+import * as fromApp from "../store/app.store";
+import { Store } from "@ngrx/store";
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(private employeeService: EmployeeService) {}
+ token : Observable<string>;
+
+  constructor(private employeeService: EmployeeService,private store:Store<fromApp.AppState>) {}
   useToken: Boolean = false;
   // interceptor to add common param
   intercept(
@@ -20,10 +24,11 @@ export class AuthInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (req.url.indexOf("Authenticate") === -1) {
+
       const modifiedReq = req.clone({
         headers: req.headers.append(
           "Authorization",
-          `Bearer ${this.employeeService.user.value.token}`
+          `Bearer ${localStorage.getItem("token")}`
         ),
       });
       console.log(modifiedReq);

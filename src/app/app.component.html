@@ -3,7 +3,7 @@
     <div class="class row">
       <div class="col-md-9" style="text-align: right;"><hr /></div>
       <div class="col-md-3" style="text-align: right;">
-        <button class="btn btn-primary" *ngIf="loggedIn" (click)="onLogOut()">
+        <button class="btn btn-primary" *ngIf="(loggedIn | async).valueOf()" (click)="onLogOut()">
           LogOut
         </button>
         <hr />

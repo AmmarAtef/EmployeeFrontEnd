@@ -7,12 +7,29 @@ import { EmployeesComponent } from "./employees/employees.component";
 import { LoginComponent } from "./login/login.component";
 import { AuthGuard } from "./service/auth-guard.service";
 import { CanDeactivateGuard } from "./service/can-deactivate-guard.service";
+import { EmployeesResolverService } from "./employees/employees.resolver.service";
 
 const appRoutes: Routes = [
   { path: "", component: LoginComponent },
-  { path: "AddEmployee",canActivate: [AuthGuard], component: AddEmployeeComponent },
-  { path: "employee/:id",canActivate: [AuthGuard],canDeactivate: [CanDeactivateGuard],  component: EditEmployeeComponentComponent },
-  { path: "employees",canActivate: [AuthGuard], component: EmployeesComponent },
+  {
+    path: "employees",
+    canActivate: [AuthGuard],
+    resolve: [EmployeesResolverService],
+    component: EmployeesComponent,
+    children: [
+      {
+        path: ":id",
+        canActivate: [AuthGuard],
+        canDeactivate: [CanDeactivateGuard],
+        component: EditEmployeeComponentComponent,
+      },
+    ],
+  },
+  {
+    path: "AddEmployee",
+    canActivate: [AuthGuard],
+    component: AddEmployeeComponent,
+  },
 ];
 
 @NgModule({

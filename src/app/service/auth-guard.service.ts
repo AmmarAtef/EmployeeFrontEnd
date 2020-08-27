@@ -10,6 +10,9 @@ import { Observable } from "rxjs";
 import { Employee } from "../shared/models/employee.model";
 import { EmployeeService } from "./employee.service";
 import { Injectable } from "@angular/core";
+import * as fromApp from "../store/app.store";
+import { Store } from "@ngrx/store";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -17,16 +20,18 @@ import { Injectable } from "@angular/core";
 export class AuthGuard implements CanActivate {
   constructor(
     private employeeService: EmployeeService,
-    private router: Router
+    private router: Router,
+    private store:Store<fromApp.AppState>
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean |UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
     console.log(this.router.url);
+    const token = this.store.select('auth').pipe(map((val)=>{return val.user.token}));
     if (
-      this.employeeService.user.value.token !== null &&
-      this.employeeService.user.value.token !== undefined
+      token !== null &&
+      token !== undefined
     ) {
       return true;
     } else {

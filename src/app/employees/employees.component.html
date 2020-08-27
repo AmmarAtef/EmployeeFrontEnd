@@ -7,7 +7,7 @@
     </div>
     <hr>
   </div>
-  <div *ngFor="let emp of employees">
+  <div *ngFor="let emp of (employees |async).employees">
     <div class="row">
       <div class="col-md-3">
         <label
@@ -49,7 +49,7 @@
           >BriefOfExperience: <span>{{ emp.BriefOfExperience }}</span></label
         >
       </div>
-      <div class="col-md-3" *ngIf='fullControl'>
+      <div class="col-md-3" *ngIf='(fullControl | async).valueOf()'>
         <button
           (click)="onDelete(emp.ID)"
           value="Delete"
@@ -58,7 +58,7 @@
           Delete
         </button>
       </div>
-      <div class="col-md-3" *ngIf='fullControl'>
+      <div class="col-md-3" *ngIf='(fullControl | async).valueOf()'>
         <a [routerLink]="['/employee', emp.ID]" class="btn btn-primary"
           >Update</a
         >

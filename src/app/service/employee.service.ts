@@ -8,17 +8,21 @@ import { environment } from "src/environments/environment";
 import { User } from "../shared/models/user.model";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from "@angular/router";
+import * as fromApp from "../store/app.store";
+import { Store } from "@ngrx/store";
+import * as authActions from "../login/store/auth.actions";
 
 @Injectable({ providedIn: "root" })
 export class EmployeeService {
   error = new Subject<string>();
-  user = new BehaviorSubject<User>(null);
+  // user = new BehaviorSubject<User>(null);
   private logOutTimer: any;
 
   constructor(
     private http: HttpClient,
     private jwtHelperService: JwtHelperService,
-    private router: Router
+    private router: Router,
+    private store: Store<fromApp.AppState>
   ) {}
 
   createAndStoreEmployee(
@@ -134,23 +138,6 @@ export class EmployeeService {
     );
   }
 
-  logIn(userLoginName, password) {
-    let searchParams = new HttpParams();
-    searchParams = searchParams.append("userLoginName", userLoginName);
-    searchParams = searchParams.append("password", password);
-    return this.http
-      .get<any>(environment.employeeServiceUrl + "/api/Auth/Authenticate", {
-        params: searchParams,
-        responseType: "json",
-      })
-      .pipe(
-        tap((value) => {
-          localStorage.setItem("token", value);
-          this.handleAuthentication(value);
-        })
-      );
-  }
-
   ping() {
     let searchParams = new HttpParams();
 
@@ -160,36 +147,10 @@ export class EmployeeService {
     });
   }
 
-  private handleAuthentication(token: any) {
-    // decode JWT
-    const decodeToken = this.jwtHelperService.decodeToken(token);
-    console.log(decodeToken);
-    const expirationDate = new Date(decodeToken.exp * 1000);
-    const userLoaded = new User(token, expirationDate, decodeToken.role);
-    this.user.next(userLoaded);
-    if (this.logOutTimer) {
-      clearTimeout(this.logOutTimer);
-    }
-    this.logOutTimer = null;
-    this.autoLogOut(new Date(decodeToken.exp).getTime() - new Date().getTime());
-  }
-
   autoLogOut(timeLogOut: number) {
     this.logOutTimer = setTimeout(() => {
-      this.logOut();
+      this.store.dispatch(new authActions.LogOut());
     }, timeLogOut);
   }
-
-  autoLogIn() {
-    this.handleAuthentication(localStorage.getItem("token"));
-  }
-
-  logOut() {
-    this.logOutTimer = null;
-    this.user.next(null);
-    localStorage.removeItem("token");
-    this.router.navigate(["/"]);
-  }
-
 
 }

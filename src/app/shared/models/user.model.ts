@@ -2,8 +2,8 @@ export class User{
 
   constructor(
     private _token:string,
-    private _expireDate?: Date,
-    public role?:String
+    public _expireDate?: Date,
+    public role?:string
     ){}
 
   get token(){
